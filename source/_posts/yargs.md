@@ -442,7 +442,7 @@ $ MY_PROGRAM_FRUIT_THING=banana node fruity.js -f cat
   fruitThing: 'cat',
   '$0': 'fruity.js' }
 ```
-默认情况下不读取env参数（没有传啊！！！），但是可以用`.env(false)`明显的标注此事。例如：你想要恢复以前的设置。
+默认情况下不读取env参数（没有传啊！！！），但是可以用`.env(false)`让环境变量失效。
 
 
 
