@@ -444,10 +444,498 @@ $ MY_PROGRAM_FRUIT_THING=banana node fruity.js -f cat
 ```
 默认情况下不读取env参数（没有传啊！！！），但是可以用`.env(false)`让环境变量失效。
 
+#### .epilog(str) .epilogue(str)
 
+使用说明之后的收场白
+```js
+var argv = require('yargs')
+  .epilogue('for more information, find our manual at http://example.com');
+```
+#### .example(cmd, desc)
 
+增加示例，第一个参数`cmd`中，`$0`代表命令行中的第一个参数。例子会随着帮助信息打印出来。
 
+#### .exitProcess(enable)
 
+暂时没发现有什么卵用
+
+#### .fail(fn)
+
+当失败发生的时候，此函数调用，而不是打印错误信息。
+
+`fn` 参数有三个，msg: '本来要打印的信息'；err：最开始抛出来的`Error`实例；'yargs'，参数对象
+
+```js
+var argv = require('yargs')
+  .fail(function (msg, err, yargs) {
+    if (err) throw err // preserve stack
+    console.error('You broke it!')
+    console.error(msg)
+    console.error('You should be doing', yargs.help())
+    process.exit(1)
+  })
+  .argv
+```
+#### .getCompletion(args, done);
+
+原文是可以程序地补全任何行的选项
+
+args: 命令行要补全的参数
+
+done: 回调函数，参数为补全的结果
+
+示例：
+```js
+require('yargs')
+  .option('foobar')
+  .option('foobaz')
+  .completion()
+  .getCompletion(['./test.js', '--foo'], function (completions) {
+    console.log(completions)
+  })
+```
+输入的补全选项：`./test.js --foo` (按tab键)：--foobar 和 --foobaz
+> 此方法我没有实际测试通过，特此备注
+
+#### .global(globals, [global=true])
+
+默认option都是全局的，但是此命令可以恢复设置为false的选项重新为全局的。
+
+全局的option在定义的命令执行之后不会清除，非全局的会被清除。默认所有选项都是全局的。
+
+```js
+var argv = require('yargs')
+  .option('a', {
+    alias: 'all',
+    default: true,
+    global: false
+  })
+  .option('n', {
+    alias: 'none',
+    default: true,
+    global: false
+  })
+  .command('foo', 'foo command', function (yargs) {
+    return yargs.option('b', {
+      alias: 'bar'
+    })
+  })
+  .help('help')
+  .global('a')
+  .argv
+```
+#### .group(key(s), groupName)
+
+这个就是在显示使用说明的时候，为同一组option增加一个头标题
+
+```js
+var yargs = require('yargs')(['--help'])
+  .help()
+  .group('batman', 'Heroes:')
+  .describe('batman', "world's greatest detective")
+  .wrap(null)
+  .argv
+```
+
+#### .help() .help([option | boolean]) .help([option, [description]])
+
+展示和配置帮主信息，yargs默认支持`--help`选项
+
+option 参数代表可以使用其他选项或命令调出帮助信息。
+
+description 可以修改默认帮助信息的文案
+
+```js
+var yargs = require("yargs")(['--info'])
+  .usage("$0 -operand1 number -operand2 number -operation [add|subtract]")
+  .help('info')
+  .argv
+```
+#### .implies(x, y)
+
+此命令意味着y对x有依赖，y可以是数组，可以是参数名，甚至可以是数字（参数位置）
+
+同样地，这个方法可以接受一个对象参数
+
+```js
+var yargs = require("yargs")
+.implies('a', 'b')
+.argv
+```
+#### .locale()
+
+开启本地模式，默认yargs会自动检测系统位置，然后使用当地的语言
+
+实用一个静态的locale可以覆盖掉默认的行为，如下所示
+
+#### .locale(locale)
+
+覆盖默认检测到的locale
+
+```js
+var argv = require('yargs')
+  .usage('./$0 - follow ye instructions true')
+  .option('option', {
+    alias: 'o',
+    describe: "'tis a mighty fine option",
+    demandOption: true
+  })
+  .command('run', "Arrr, ya best be knowin' what yer doin'")
+  .example('$0 run foo', "shiver me timbers, here's an example for ye")
+  .help('help')
+  .wrap(70)
+  .locale('pirate')
+  .argv
+
+```
+***
+```js
+./test.js - follow ye instructions true
+
+Choose yer command:
+  run  Arrr, ya best be knowin' what yer doin'
+
+Options for me hearties!
+  --option, -o  'tis a mighty fine option               [requi-yar-ed]
+  --help        Parlay this here code of conduct             [boolean]
+
+Ex. marks the spot:
+  test.js run foo  shiver me timbers, here's an example for ye
+
+Ye be havin' to set the followin' argument land lubber: option
+```
+一般用不到这个东东
+
+#### .nargs(key, count)
+
+此方法用于限制 key 后面跟的参数长度
+
+```js
+var argv = require('yargs')
+  .nargs('token', 1)
+  .argv
+```
+当然，也可以传object参数
+
+#### .normalize(key)
+
+据说是为了传入path的时候，便于调用path.normalize()
+
+#### number(key)
+
+告诉parser，一直将这个`key`当作数字转换
+
+参数可以是数组
+
+选项如果并没有值，默认为`undefined`
+
+不能转化为数字，会被转换为`NaN`
+
+小数，16进制数，科学计数法都是合法的
+
+```js
+var argv = require('yargs')
+  .number('n')
+  .number(['width', 'height'])
+  .argv
+```
+#### .option(key, [opt]) .options(key, [opt])
+
+为`key`配置各种选项的命令
+
+```js
+var argv = require('yargs')
+    .option('f', {
+        alias: 'file',
+        demandOption: true,
+        default: '/etc/passwd',
+        describe: 'x marks the spot',
+        type: 'string'
+    })
+    .argv
+;
+```
+同
+```js
+var argv = require('yargs')
+    .alias('f', 'file')
+    .demandOption('f')
+    .default('f', '/etc/passwd')
+    .describe('f', 'x marks the spot')
+    .string('f')
+    .argv
+;
+```
+还可以这样
+```js
+var argv = require('yargs')
+    .options({
+      'f': {
+        alias: 'file',
+        demandOption: true,
+        default: '/etc/passwd',
+        describe: 'x marks the spot',
+        type: 'string'
+      }
+    })
+    .argv
+;
+```
+可用的key有以下这些
+
+- alias
+- array
+- boolean
+- choices
+- coerce
+- config
+- configParser
+- conflicts
+- count
+- default
+- defaultDescription
+- demandOption
+- desc/describe/description
+- global
+- group
+- hidden
+- implies
+- nargs
+- normalize
+- number
+- requiresArg
+- skipValidation
+- string
+- type: 'array','boolean','count','number','string'
+
+#### .parse([args], [context], [parseCallback])
+
+可以替代从`process.argv`传参，返回argv对象。args可以是数组或者原生参数字符串。
+
+context：可以同时携带的一个对象参数，可以为命令提供状态信息，是很实用的技术。
+
+```js
+const parser = yargs
+  .command('lunch-train <restaurant>', 'start lunch train', function () {}, function (argv) {
+    console.log(argv.restaurant, argv.time)
+  })
+  .parse("lunch-train rudy's", {time: '12:15'})
+```
+parseCallback: 此方法的回调函数，会携带三个参数
+
+1. err: 转化中出现的验证错误
+2. argv: 转化的argv对象
+3. output: 将要在终端输出的文本
+```js
+// providing the `fn` argument to `parse()` runs yargs in headless mode, this
+// makes it easy to use yargs in contexts other than the CLI, e.g., writing
+// a chat-bot.
+const parser = yargs
+  .command('lunch-train <restaurant> <time>', 'start lunch train', function () {}, function (argv) {
+    api.scheduleLunch(argv.restaurant, moment(argv.time))
+  })
+  .help()
+
+parser.parse(bot.userText, function (err, argv, output) {
+  if (output) bot.respond(output)
+})
+```
+*提醒:* 给parse函数回调参数会导致 `exitProcess` 设置失效，直至回调调用
+
+#### .pkgConf(key, [cwd])
+
+类似于 `.config()`，这表明yargs从 package.json 中寻找特定的配置对象
+
+`cwd`可以选择性地提供，package.json 将从这里读取
+
+#### .positional(key, opt)
+
+> 这个我尝试了，但是没泡通
+
+对命令的参数进行配置，类似于 `.option()`，但是不能作用于顶层yargs实例
+
+```js
+const argv = require('yargs')('run --help')
+  .command('run <port> <guid>', 'run the server', (yargs) => {
+    yargs.positional('guid', {
+      describe: 'a unique identifier for the server',
+      type: 'string'
+    })
+  }).argv
+console.log(argv)
+```
+可选的参数有：
+- alias
+- choices
+- coerce
+- confilicts
+- default
+- desc/describe/description
+- implies
+- normalize
+- type: 'boolean','number','string'
+
+#### .recommendCommands()
+
+决定yargs是否在没有匹配命令的时候，提示相关的类似命令
+
+#### .require(key, [msg | boolean]) .required(key, [msg | boolean])
+
+同 `.demand()`
+
+#### .requiresArg(key)
+
+可以接收数组或者字符串
+
+规定所有的key后面必须要跟value，否则，现实用法信心并退出
+
+默认如果key后面不跟value，key赋值为true
+
+#### .reset() [已废弃]
+
+重置所有已经构建的参数。对于嵌套命令行接口特别有用。使用global避免不想要重置的keys被重置
+
+```js
+var yargs = require('yargs')
+  .usage('$0 command')
+  .command('hello', 'hello command')
+  .command('world', 'world command')
+  .demandCommand(1, 'must provide a valid command'),
+  argv = yargs.argv,
+  command = argv._[0];
+
+if (command === 'hello') {
+  yargs.reset()
+    .usage('$0 hello')
+    .help('h')
+    .example('$0 hello', 'print the hello message!')
+    .argv
+
+  console.log('hello!');
+} else if (command === 'world'){
+  yargs.reset()
+    .usage('$0 world')
+    .help('h')
+    .example('$0 world', 'print the world message!')
+    .argv
+
+  console.log('world!');
+} else {
+  yargs.showHelp();
+}
+```
+#### .showCompletionScript()
+
+生成一个补全脚本。应用的使用者可以在他们的`.bashrc`中安装，yargs会提供命令和参数补全的快捷方式
+
+#### .showHelp(consoleLevel='error')
+
+实用console的`consoleLevel`打印使用数据
+
+Example:
+
+```js
+var yargs = require("yargs")
+  .usage("$0 -operand1 number -operand2 number -operation [add|subtract]");
+yargs.showHelp(); //prints to stderr using console.error()
+```
+或者，使用标准输出打印使用信息，可以选择`console.log`:
+```js
+yargs.showHelp("log"); //prints to stdout using console.log()
+```
+#### .showHelpOnFail(enable, [message])
+
+默认，yargs检测到错误会输出使用信息。我们可以使用这个方法定制行为。enable为false的时候，使用信息不输出。如果message参数存在，这个信息会在错误信息之后输出。
+```js
+#!/usr/bin/env node
+var argv = require('yargs')
+    .usage('Count the lines in a file.\nUsage: $0 -f <file>')
+    .demandOption('f')
+    .alias('f', 'file')
+    .describe('f', 'Load a file')
+    .string('f')
+    .showHelpOnFail(false, 'Specify --help for available options')
+    .help('help')
+    .argv;
+
+// etc.
+```
+```js
+$ node line_count.js
+Missing argument value: f
+
+Specify --help for available options
+```
+#### .skipValidation(key)
+
+指定一些选项，跳过验证
+
+#### .strict([enabled=true])
+
+如果所有的参数都没有被`demand`, 或者都没有一个正确的描述，这将会被当成错误报告出来
+
+不被认可的命令依然会被当作错误报告出来
+
+#### .string(key)
+
+告诉parser不要将key当成数字或布尔值来转换
+
+#### .updateLocale(obj) .updateStrings(obj)
+
+*没有测试通过*
+
+覆盖默认的字符串
+
+```js
+var argv = require('yargs')
+  .command('run', 'the run command')
+  .help('help')
+  .updateStrings({
+    'Commands:': 'My Commands -->\n'
+  })
+  .wrap(null)
+  .argv
+```
+---
+```js
+My Commands -->
+
+  run  the run command
+
+Options:
+  --help  Show help  [boolean]
+```
+如果特定了一个`locale()`, 应该在`updateStrings()`之前调用
+
+#### .usage(<message|command>, [desc], [builder], [handler])
+
+设置显示哪一条命令的使用信息。在message中，`$0`会被转译成脚本名字，node命令等。
+
+如果 `desc/builder/handler` 等参数提供了，此方法相当于 `.command`。
+
+```js
+const argv = require('yargs')
+  .usage('$0 <port>', 'start the application server', (yargs) => {
+    yargs.positional('port', {
+      describe: 'the port that your application should bind to',
+      type: 'number'
+    })
+  }).argv
+```
+
+#### .version() .version([version|boolean]) .version([option], [description], [version])
+
+设置显示的版本号并退出程序。默认支持 --version。
+
+如果没有参数传入，yargs会从package.json中寻找version值
+
+如果传入布尔值 `false`, 将会禁掉 --version
+
+#### .wrap(columns)
+
+格式化使用信息的展示 -- 多少列
+
+默认的wrap是`Math.min(80, windowWidth)`, 使用`.wrap(null)`去掉列限制。使用`.wrap(yargs.terminalWidth())`控制显示信息为最大宽度。
 
 
 
