@@ -67,10 +67,10 @@ run.sh 内容如下
 ```sh
 #!/bin/bash
 editionDay(){
-  for DAY in '二' '四' '日'
+  for DAY in 2 4 0
   do
-    WEEK_DAY=$(date +%a)
-    if test $WEEK_DAY = $DAY
+    WEEK_DAY=$(date +%w)
+    if test $WEEK_DAY -eq $DAY
     then
       return 1
     fi
@@ -78,12 +78,12 @@ editionDay(){
   return 0
 }
 echo "-----函数开始执行-----"
-WEEK_DAY=$(date +%a)
+WEEK_DAY=$(date +%w)
 editionDay
 if test $? = 0
 then
   EDITION=''
-  if test $WEEK_DAY = '五'
+  if test $WEEK_DAY -eq 5
   then
     EDITION=$(date -v +2d +%Y%m%d)
   else
