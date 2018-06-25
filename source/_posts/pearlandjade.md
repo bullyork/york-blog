@@ -14,7 +14,7 @@ tags: 文章 思想
 
 - [mermaid markdown 格式画流程图](https://mermaidjs.github.io/)
 
-- [event-loog](https://www.youtube.com/watch?v=8aGhZQkoFbQ&feature=youtu.be)
+- [event-loop](https://www.youtube.com/watch?v=8aGhZQkoFbQ&feature=youtu.be)
 
 - [jsfiddle 前端演示工具](http://jsfiddle.net/)
 
@@ -25,3 +25,8 @@ tags: 文章 思想
 - [浏览器前端优化](http://jinlong.github.io/2017/05/08/optimising-the-front-end-for-the-browser/)
 
 - [虚拟 dom 实现](https://github.com/livoras/blog/issues/13)
+
+- [函数防抖与函数节流](https://zhuanlan.zhihu.com/p/38313717)
+
+- [webpack 配置优化](https://developers.google.com/web/fundamentals/performance/webpack/)
+- [web performance](https://developers.google.com/web/fundamentals/performance/why-performance-matters/?hl=zh-cn)
