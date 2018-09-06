@@ -30,3 +30,9 @@ tags: 文章 思想
 
 - [webpack 配置优化](https://developers.google.com/web/fundamentals/performance/webpack/)
 - [web performance](https://developers.google.com/web/fundamentals/performance/why-performance-matters/?hl=zh-cn)
+- [performance 统计](http://www.alloyteam.com/2015/09/explore-performance/)
+- [移动端 app 版本分布统计-腾讯](https://mta.qq.com/mta/data/device/os)
+- [what-happens-when](https://github.com/skyline75489/what-happens-when-zh_CN#id9)
+- [白噪音](https://sspai.com/post/40574)
+- [如何选择开源许可证](http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
+- [微信浏览器实现后退记忆浏览位置](https://404forest.com/2016/08/09/%E5%BE%AE%E4%BF%A1%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%90%8E%E9%80%80%E8%AE%B0%E5%BF%86%E6%B5%8F%E8%A7%88%E4%BD%8D%E7%BD%AE/)
