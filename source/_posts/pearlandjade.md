@@ -44,3 +44,6 @@ tags: 文章 思想
 - [极光大数据](https://www.jiguang.cn/reports)
 - [绘图网站](https://www.draw.io)
 - [都江堰原理](https://v.qq.com/x/page/z0317tld7f3.html)
+- [MIT 开放课程](https://ocw.mit.edu)
+- [面试和算法](https://wizardforcel.gitbooks.io/the-art-of-programming-by-july/content/index.html)
+- [现代浏览器原理](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
