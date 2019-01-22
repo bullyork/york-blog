@@ -49,3 +49,4 @@ tags: 文章 思想
 - [现代浏览器原理](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
 - [THE WEB'S SCAFFOLDING TOOL FOR MODERN WEBAPPS](https://yeoman.io/)
 - [ppt背景音乐以及视频](https://videos.pexels.com/)
+- [前端优质博客](https://github.com/ljianshu/Blog)
