@@ -50,3 +50,6 @@ tags: 文章 思想
 - [THE WEB'S SCAFFOLDING TOOL FOR MODERN WEBAPPS](https://yeoman.io/)
 - [ppt背景音乐以及视频](https://videos.pexels.com/)
 - [前端优质博客](https://github.com/ljianshu/Blog)
+- [正则表达式验证网站1](https://regex101.com/)
+- [正则表达式验证网站2](https://jex.im/regulex/#!flags=&re=%5E%5B%5E%5Cs%22'%3C%3E%5C%2F%3D%5D%2B)
+- [学习js](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
