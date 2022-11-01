@@ -1404,10 +1404,10 @@ hexo-renderer-sass@^0.3.1:
   dependencies:
     node-sass "^4.5.3"
 
-hexo-renderer-stylus@^0.3.1:
+hexo-renderer-stylus@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/hexo-renderer-stylus/-/hexo-renderer-stylus-0.3.3.tgz#c54ea27e1fd8e3c8a9a7a84cfba8ad354122ca7f"
-  integrity sha1-xU6ifh/Y48ipp6hM+6itNUEiyn8=
+  integrity sha512-Qv1o1EpYzd0qbIcjDFldaIorYMocBRnxM2UpbwWVBrrN9PWV/hwFUEagya3/DF+U//TM5Yiha36JLcbxk5gBBA==
   dependencies:
     nib "^1.1.2"
     stylus "^0.54.5"
